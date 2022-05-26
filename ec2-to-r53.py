@@ -51,7 +51,8 @@ def get_ec2(aws_cli_profile, **kargs):
         for instance in [instance['Instances'][0] for instance in page['Reservations']]:
             instance_name = next(item['Value'] for item in instance['Tags'] if item['Key'] == "Name")
             instance_ip = instance['PrivateIpAddress']
-            return_list.append({"name": instance_name, "ip": instance_ip})
+            if " " not in instance_name:
+                return_list.append({"name": instance_name, "ip": instance_ip})
 
     return return_list
 
